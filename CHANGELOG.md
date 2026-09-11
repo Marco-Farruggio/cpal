@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **AudioWorklet**: Input and duplex streams are now supported.
 - **JACK**: Duplex streams are now supported.
 - **WebAudio**: Input and duplex streams are now supported.
+- **WebAudio**: Added support for Emscripten targets via [wasm-bindgen/Emscripten integration](https://github.com/wasm-bindgen/wasm-bindgen/issues/5237).
 
 ### Changed
 
