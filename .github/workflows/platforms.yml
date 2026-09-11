@@ -529,7 +529,7 @@ jobs:
       matrix:
         include:
           - name: no-atomics
-            toolchain: ${{ env.MSRV_WASM }}
+            toolchain: ""
             rustflags: ""
             build-std: ""
             components: ""
@@ -546,10 +546,10 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Install Rust ${{ matrix.toolchain }}
+      - name: Install Rust ${{ matrix.toolchain || env.MSRV_WASM }}
         uses: dtolnay/rust-toolchain@master
         with:
-          toolchain: ${{ matrix.toolchain }}
+          toolchain: ${{ matrix.toolchain || env.MSRV_WASM }}
           targets: ${{ env.TARGET }}
           components: ${{ matrix.components }}
 
@@ -559,13 +559,13 @@ jobs:
           key: wasm-emscripten-${{ matrix.name }}
 
       - name: Check examples (default features)
-        run: cargo +${{ matrix.toolchain }} check --examples --workspace --verbose ${{ matrix.build-std }} --target ${{ env.TARGET }}
+        run: cargo +${{ matrix.toolchain || env.MSRV_WASM }} check --examples --workspace --verbose ${{ matrix.build-std }} --target ${{ env.TARGET }}
 
       - name: Check examples (wasm-bindgen feature)
-        run: cargo +${{ matrix.toolchain }} check --examples --features wasm-bindgen --workspace --verbose ${{ matrix.build-std }} --target ${{ env.TARGET }}
+        run: cargo +${{ matrix.toolchain || env.MSRV_WASM }} check --examples --features wasm-bindgen --workspace --verbose ${{ matrix.build-std }} --target ${{ env.TARGET }}
 
       - name: Check all features
-        run: cargo +${{ matrix.toolchain }} check --workspace --all-features --verbose ${{ matrix.build-std }} --target ${{ env.TARGET }}
+        run: cargo +${{ matrix.toolchain || env.MSRV_WASM }} check --workspace --all-features --verbose ${{ matrix.build-std }} --target ${{ env.TARGET }}
 
   # WebAssembly - WASI Preview 1
   wasm-wasip1:
